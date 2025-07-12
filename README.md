@@ -1,2 +1,2 @@
-# GoalMate
-Like Hinge, but without commitment issues.
+# hinge
+hinge without commitment issues 
