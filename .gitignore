@@ -1,1 +1,6 @@
 .env.local
+# .gitignore
+node_modules
+.env.local
+.next
+out
