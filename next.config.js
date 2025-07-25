@@ -1,5 +1,6 @@
 module.exports = {
   experimental: {
-    serverActions: true,
+    // serverActions: true,
   },
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };

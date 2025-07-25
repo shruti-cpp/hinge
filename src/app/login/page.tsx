@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
@@ -11,6 +11,20 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: userData, error } = await supabase.auth.getUser();
+
+      if (userData?.user) {
+        console.log("Redirecting, user is logged in:", userData.user);
+        router.replace("/dashboard");
+      } else {
+        console.log("User not logged in or error:", error);
+      }
+    };
+
+    checkUser();
+  }, []);
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -22,16 +36,7 @@ export default function LoginPage() {
     if (error) {
       alert(error.message);
     } else if (data.session) {
-      const { error: setSessionError } = await supabase.auth.setSession({
-        access_token: data.session.access_token,
-        refresh_token: data.session.refresh_token,
-      });
-
-      if (setSessionError) {
-        alert("Error saving session.");
-      } else {
-        router.push("/dashboard");
-      }
+      router.push("/dashboard");
     } else {
       alert("Login failed. No session.");
     }
